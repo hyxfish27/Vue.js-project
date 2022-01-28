@@ -3,6 +3,10 @@ import { createApp } from 'https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.27/vue
 const url = 'https://vue3-course-api.hexschool.io/v2';
 const path = 'hyxfish27';
 
+// 取得Token
+const token = document.cookie.replace(/(?:(?:^|.*;\s*)myToken\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+axios.defaults.headers.common['Authorization'] = token;
+
 let productModal, delProductModal = "";
 
 const app = {
@@ -12,25 +16,9 @@ const app = {
             isNew: true,
             modal: "",
             products: [],
-            newProduct: {
-                "data": {
-                    "title": "測試商品",
-                    "category": "測試",
-                    "origin_price": 99999,
-                    "price": 999,
-                    "unit": "個",
-                    "description": "測試內容",
-                    "content": "測試",
-                    "is_enabled": 1,
-                    "imageUrl": "主圖網址",
-                    "imagesUrl": [
-                        "圖片網址一",
-                        "圖片網址二",
-                        "圖片網址三",
-                        "圖片網址四",
-                        "圖片網址五"
-                    ]
-                }
+            tempProduct: {
+                "imagesUrl": [
+                ]
             }
         }
     },
@@ -40,9 +28,7 @@ const app = {
             axios
                 .get(`${url}/api/${path}/admin/products/all`)
                 .then(res => {
-                    // console.log(res.data.products)
                     this.products = res.data.products;
-                    // console.log(this.products)
                 })
                 .catch(err => {
                     console.dir(err)
@@ -50,32 +36,48 @@ const app = {
         },
         // 新增產品
         addProduct() {
-            productModal.show();
+            axios
+                .post(`${url}/api/${path}/admin/product`, this.tempProduct)
+                .then(res => {
+                    console.log(res)
+                })
+                .catch(err => {
+                    console.dir(err);
+                })
+            console.log('add Product')
+            productModal.hide();
         },
-        // 編輯產品
-        editProduct() {
-
+        // 更新產品
+        updateProduct() {
+            // console.log('update Product')
+            axios
+                .put(`${url}/api/${path}/admin/product/${this.tempProduct.id}`, { data: this.tempProduct })
+                .then(res => {
+                    console.log(res)
+                })
+                .catch(err => {
+                    console.dir(err);
+                })
+            productModal.hide();
+            this.getProducts();
         },
         // 移除產品
-        removeProduct(id) {
-            console.log(id);
-            delProductModal.show();
-            // axios
-            //     .delete(`${url}/api/${path}/admin/product/${id}`)
-            //     .then(res => {
-            //         console.log(res.data)
-            //         this.getProducts();
-            //     })
-            //     .catch(err => {
-            //         console.dir(err);
-            //     })
+        removeProduct() {
+            // console.log(this.tempProduct.id);
+            axios
+                .delete(`${url}/api/${path}/admin/product/${this.tempProduct.id}`)
+                .then(res => {
+                    console.log(res.data)
+                    this.getProducts();
+                })
+                .catch(err => {
+                    console.dir(err);
+                })
+            delProductModal.hide();
 
         },
         // 檢查登入狀態
         checkLogin() {
-            const token = document.cookie.replace(/(?:(?:^|.*;\s*)myToken\s*\=\s*([^;]*).*$)|^.*$/, "$1");
-            axios.defaults.headers.common['Authorization'] = token;
-
             axios
                 .post(`${url}/api/user/check`)
                 .then(res => {
@@ -83,22 +85,27 @@ const app = {
                     this.getProducts();
                 })
                 .catch(err => {
-
+                    window.location = "index.html"
                 })
         },
         createModals() {
             productModal = new bootstrap.Modal(document.querySelector('#productModal'));
             delProductModal = new bootstrap.Modal(document.querySelector('#delProductModal'));
         },
-        openModal(modal) {
+        openModal(modal, product) {
             if (modal === 'delete') {
-                console.log('delete');
+                this.tempProduct = { ...product };
+                delProductModal.show();
             }
             else if (modal === 'edit') {
-                console.log('edit');
+                this.isNew = false;
+                this.tempProduct = { ...product };
+                productModal.show();
             }
             else if (modal === 'new') {
-                console.log('new');
+                this.isNew = true;
+                this.tempProduct = "";
+                productModal.show();
             }
         }
 
