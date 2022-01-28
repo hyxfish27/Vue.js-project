@@ -94,9 +94,8 @@
                 </div>
                 <!-- Array exist -->
                 <div v-if="Array.isArray(tempProduct.imagesUrl)">
-                  <!-- {{tempProduct.imagesUrl}} -->
                   <div v-for="(image, key) in tempProduct.imagesUrl" :key="key">
-                    <p>圖片 {{ key }}</p>
+                    <p>圖片 {{ key + 1 }}</p>
                     <input type="text" class="form-control" placeholder="請輸入圖片連結" v-model="tempProduct.imagesUrl[key]">
                     <img class="img-fluid" :src="image" alt="">
 
@@ -106,13 +105,13 @@
                         新增圖片
                       </button>
                     </div>
-
                     <div v-else-if="!tempProduct.imagesUrl[key]">
                       <button class="btn btn-outline-danger btn-sm d-block w-100" @click="tempProduct.imagesUrl.pop()">
                         刪除圖片
                       </button>
                     </div>
                   </div>
+
                 </div>
                 <!-- Array is not exist -->
                 <div v-else>
