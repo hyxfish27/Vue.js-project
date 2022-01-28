@@ -92,14 +92,32 @@
                   </div>
                   <img class="img-fluid" :src="tempImageUrl" alt="">
                 </div>
-                <div>
-                  <button class="btn btn-outline-primary btn-sm d-block w-100">
-                    新增圖片
-                  </button>
+                <!-- Array exist -->
+                <div v-if="Array.isArray(tempProduct.imagesUrl)">
+                  <!-- {{tempProduct.imagesUrl}} -->
+                  <div v-for="(image, key) in tempProduct.imagesUrl" :key="key">
+                    <p>圖片 {{ key }}</p>
+                    <input type="text" class="form-control" placeholder="請輸入圖片連結" v-model="tempProduct.imagesUrl[key]">
+                    <img class="img-fluid" :src="image" alt="">
+
+                    <div v-if="tempProduct.imagesUrl[key]">
+                      <button class="btn btn-outline-primary btn-sm d-block w-100"
+                        @click="tempProduct.imagesUrl.push('')">
+                        新增圖片
+                      </button>
+                    </div>
+
+                    <div v-else-if="!tempProduct.imagesUrl[key]">
+                      <button class="btn btn-outline-danger btn-sm d-block w-100" @click="tempProduct.imagesUrl.pop()">
+                        刪除圖片
+                      </button>
+                    </div>
+                  </div>
                 </div>
-                <div>
-                  <button class="btn btn-outline-danger btn-sm d-block w-100">
-                    刪除圖片
+                <!-- Array is not exist -->
+                <div v-else>
+                  <button class="btn btn-outline-primary btn-sm d-block w-100" @click="initialImgArray">
+                    新增附圖
                   </button>
                 </div>
               </div>
@@ -157,6 +175,7 @@
               </div>
             </div>
           </div>
+          <!-- Modal footer -->
           <div class="modal-footer">
             <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
               取消
@@ -194,7 +213,6 @@
         </div>
       </div>
     </div>
-    <!-- Modal -->
   </div>
 
   <script type="module" src="./js/products.js"></script>

@@ -62,7 +62,8 @@ const app = {
                     alert(res.data.message);
                 })
                 .catch(err => {
-                    console.dir(err);
+                    // console.dir(err);
+                    alert(err.data.message)
                 })
             productModal.hide();
         },
@@ -77,7 +78,8 @@ const app = {
                     this.getProducts();
                 })
                 .catch(err => {
-                    console.dir(err);
+                    // console.dir(err);
+                    alert(err.data.message)
                 })
             delProductModal.hide();
 
@@ -91,8 +93,17 @@ const app = {
                     this.getProducts();
                 })
                 .catch(err => {
+                    alert(err.data.message);
                     window.location = "index.html"
                 })
+        },
+        // initial imagesUrl Array
+        initialImgArray() {
+            // console.log(Array.isArray(this.tempProduct.imagesUrl)) 
+            // false則進行初始化
+            this.tempProduct.imagesUrl = [];
+            this.tempProduct.imagesUrl.push('');
+
         },
         // Modal Execution
         openModal(modal, product) {
