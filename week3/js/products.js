@@ -29,6 +29,7 @@ const app = {
                 .get(`${url}/api/${path}/admin/products/all`)
                 .then(res => {
                     this.products = res.data.products;
+                    this.ready = true;
                 })
                 .catch(err => {
                     console.dir(err)
@@ -36,13 +37,15 @@ const app = {
         },
         // 新增產品
         addProduct() {
+            this.ready = false;
             axios
                 .post(`${url}/api/${path}/admin/product`, { data: this.tempProduct })
                 .then(res => {
-                    console.log(res)
+                    alert(res.data.message);
                 })
                 .catch(err => {
-                    console.dir(err);
+                    // console.dir(err);
+                    alert(err.data.message)
                 })
             // console.log('add Product')
             this.getProducts();
@@ -50,11 +53,12 @@ const app = {
         },
         // 更新產品
         updateProduct() {
+            this.ready = false;
             // console.log('update Product')
             axios
                 .put(`${url}/api/${path}/admin/product/${this.tempProduct.id}`, { data: this.tempProduct })
                 .then(res => {
-                    console.log(res)
+                    alert(res.data.message);
                 })
                 .catch(err => {
                     console.dir(err);
@@ -64,11 +68,12 @@ const app = {
         },
         // 移除產品
         removeProduct() {
+            this.ready = false;
             // console.log(this.tempProduct.id);
             axios
                 .delete(`${url}/api/${path}/admin/product/${this.tempProduct.id}`)
                 .then(res => {
-                    console.log(res.data)
+                    alert(res.data.message);
                     this.getProducts();
                 })
                 .catch(err => {
@@ -89,10 +94,7 @@ const app = {
                     window.location = "index.html"
                 })
         },
-        createModals() {
-            productModal = new bootstrap.Modal(document.querySelector('#productModal'));
-            delProductModal = new bootstrap.Modal(document.querySelector('#delProductModal'));
-        },
+        // Modal Execution
         openModal(modal, product) {
             if (modal === 'delete') {
                 this.tempProduct = { ...product };
@@ -108,7 +110,11 @@ const app = {
                 this.tempProduct = { imagesUrl: [] };
                 productModal.show();
             }
-        }
+        },
+        createModals() {
+            productModal = new bootstrap.Modal(document.querySelector('#productModal'));
+            delProductModal = new bootstrap.Modal(document.querySelector('#delProductModal'));
+        },
 
     },
     mounted() {

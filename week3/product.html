@@ -14,12 +14,18 @@
 
 <body>
   <div id="app">
+    <!-- Loader -->
+    <div class="loader" id="loader" v-if="!ready">
+      <img src="./img/loader.svg" alt="loading...">
+    </div>
+    <!-- Add Product Button -->
     <div class="container">
       <div class="text-end mt-4">
         <button class="btn btn-primary" @click="openModal('new')">
           建立新的產品
         </button>
       </div>
+      <!-- Product list -->
       <table class="table mt-4">
         <thead>
           <tr>
@@ -65,7 +71,7 @@
         </tbody>
       </table>
     </div>
-    <!-- Modal -->
+    <!-- Product Modal -->
     <div id="productModal" ref="productModal" class="modal fade" tabindex="-1" aria-labelledby="productModalLabel"
       aria-hidden="true">
       <div class="modal-dialog modal-xl">
