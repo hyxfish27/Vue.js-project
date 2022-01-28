@@ -37,14 +37,15 @@ const app = {
         // 新增產品
         addProduct() {
             axios
-                .post(`${url}/api/${path}/admin/product`, this.tempProduct)
+                .post(`${url}/api/${path}/admin/product`, { data: this.tempProduct })
                 .then(res => {
                     console.log(res)
                 })
                 .catch(err => {
                     console.dir(err);
                 })
-            console.log('add Product')
+            // console.log('add Product')
+            this.getProducts();
             productModal.hide();
         },
         // 更新產品
@@ -104,7 +105,7 @@ const app = {
             }
             else if (modal === 'new') {
                 this.isNew = true;
-                this.tempProduct = "";
+                this.tempProduct = { imagesUrl: [] };
                 productModal.show();
             }
         }
