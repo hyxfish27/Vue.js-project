@@ -1,4 +1,5 @@
 import { createApp } from 'https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.27/vue.esm-browser.min.js'
+import { debounce } from 'https://cdn.jsdelivr.net/npm/@esm-bundle/lodash@4.17.21/esm/index.js';
 
 const url = 'https://vue3-course-api.hexschool.io/v2';
 const path = 'hyxfish27';
@@ -19,7 +20,8 @@ const app = {
             tempProduct: {
                 "imagesUrl": [
                 ]
-            }
+            },
+            tempImageUrl: ""
         }
     },
     methods: {
@@ -41,30 +43,28 @@ const app = {
             axios
                 .post(`${url}/api/${path}/admin/product`, { data: this.tempProduct })
                 .then(res => {
+                    this.getProducts();
                     alert(res.data.message);
                 })
                 .catch(err => {
                     // console.dir(err);
                     alert(err.data.message)
                 })
-            // console.log('add Product')
-            this.getProducts();
             productModal.hide();
         },
         // 更新產品
         updateProduct() {
             this.ready = false;
-            // console.log('update Product')
             axios
                 .put(`${url}/api/${path}/admin/product/${this.tempProduct.id}`, { data: this.tempProduct })
                 .then(res => {
+                    this.getProducts();
                     alert(res.data.message);
                 })
                 .catch(err => {
                     console.dir(err);
                 })
             productModal.hide();
-            this.getProducts();
         },
         // 移除產品
         removeProduct() {
@@ -103,11 +103,13 @@ const app = {
             else if (modal === 'edit') {
                 this.isNew = false;
                 this.tempProduct = { ...product };
+                this.tempImageUrl = "";
                 productModal.show();
             }
             else if (modal === 'new') {
                 this.isNew = true;
                 this.tempProduct = { imagesUrl: [] };
+                this.tempImageUrl = "";
                 productModal.show();
             }
         },
@@ -116,6 +118,12 @@ const app = {
             delProductModal = new bootstrap.Modal(document.querySelector('#delProductModal'));
         },
 
+    },
+    watch: {
+        // 使用debounce監聽tempProduct下的imageUrl，1000ms後才會v-bind至<img>，避免網址爆掉
+        'tempProduct.imageUrl': debounce(function () {
+            this.tempImageUrl = this.tempProduct.imageUrl;
+        }, 500)
     },
     mounted() {
         this.checkLogin();
