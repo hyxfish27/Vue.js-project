@@ -4,6 +4,7 @@ export default {
 
     }
   },
+  props: ['product-modal'],
   template: `  <div id="productModal" ref="productModal" class="modal fade" tabindex="-1" aria-labelledby="productModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-xl">
@@ -22,7 +23,7 @@ export default {
                   <label for="imageUrl" class="form-label">輸入圖片網址</label>
                   <input type="text" class="form-control" placeholder="請輸入圖片連結" v-model="tempProduct.imageUrl">
                 </div>
-                <img class="img-fluid" :src="tempImageUrl" alt="">
+                <!--<img class="img-fluid" :src="tempImageUrl" alt="">-->
               </div>
               <!-- Array exist -->
               <div v-if="Array.isArray(tempProduct.imagesUrl)">
