@@ -23,6 +23,7 @@ export default {
                     <div class="mb-3">
                       <label for="imageUrl" class="form-label">輸入圖片網址</label>
                       <input type="text" class="form-control" placeholder="請輸入圖片連結" v-model="tempProduct.imageUrl">
+                      <img class="img-fluid" :src="tempProduct.imageUrl" alt="">
                     </div>
                   </div>
                   <!-- Array exist -->
