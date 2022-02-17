@@ -15,9 +15,9 @@
 <body>
     <div id="app">
         <!-- Loader -->
-        <!-- <div class="loader" id="loader" v-if="!ready">
+        <div class="loader" id="loader" v-if="!ready">
             <img src="./img/loader.svg" alt="loading...">
-        </div> -->
+        </div>
         <!-- Add Product Button -->
         <div class="container">
             <div class="text-end mt-4">
@@ -76,8 +76,11 @@
             <!-- 內層 : get-product, 外層 : getProduct -->
             <pagination :pages="pagination" @get-product="getProduct"></pagination>
         </div>
-        <!-- <product_modal :product-modal='productModal'></product_modal> -->
-        <!-- <delete_modal :delete-modal='delProductModal'></delete_modal> -->
+        <!-- 內層 : temp-product、is-new, 外層 : tempProduct、isNew -->
+        <product_modal :temp-product='tempProduct' :is-new="isNew" :product-modal='productModal'
+            @get-product="getProduct"></product_modal>
+        <delete_modal :temp-product='tempProduct' @remove-product="removeProduct">
+        </delete_modal>
     </div>
 
     <script type="module" src="./js/product.js"></script>
