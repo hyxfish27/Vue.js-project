@@ -28,34 +28,36 @@ export default {
                   </div>
                   <!-- Array exist -->
                   <div v-if="Array.isArray(tempProduct.imagesUrl)">
-                    <div v-for="(image, key) in tempProduct.imagesUrl" :key="key">
-                      <p>圖片 {{ key + 1 }}</p>
-                      <input type="text" class="form-control" placeholder="請輸入圖片連結" v-model="tempProduct.imagesUrl[key]">
-                      <img class="img-fluid" :src="image" alt="">
-
-                      <div
-                      v-if="!tempProduct.imagesUrl.length || tempProduct.imagesUrl[tempProduct.imagesUrl.length - 1]">
-                      <button class="btn btn-outline-primary btn-sm d-block w-100"
-                        @click="tempProduct.imagesUrl.push('')">
-                        新增圖片
-                      </button>
+                  <div class="mb-1" v-for="(image, key) in tempProduct.imagesUrl" :key="key">
+                    <div class="form-group">
+                      <label for="imageUrl" class="form-label">圖片網址</label>
+                      <input v-model="tempProduct.imagesUrl[key]" type="text" class="form-control"
+                        placeholder="請輸入圖片連結">
                     </div>
-                    <div v-else>
-                      <button class="btn btn-outline-danger btn-sm d-block w-100" @click="tempProduct.imagesUrl.pop()">
-                        刪除圖片
-                      </button>
-                    </div>
-                    </div>
-                    
-    
+                    <img class="img-fluid" :src="image">
                   </div>
-                  <!-- Array is not exist -->
+                  <div
+                    v-if="!tempProduct.imagesUrl.length || tempProduct.imagesUrl[tempProduct.imagesUrl.length - 1]">
+                    <button class="btn btn-outline-primary btn-sm d-block w-100"
+                      @click="tempProduct.imagesUrl.push('')">
+                      新增圖片
+                    </button>
+                  </div>
                   <div v-else>
-                    <button class="btn btn-outline-primary btn-sm d-block w-100" @click="initialImgArray">
-                      新增附圖
+                    <button class="btn btn-outline-danger btn-sm d-block w-100" @click="tempProduct.imagesUrl.pop()">
+                      刪除圖片
                     </button>
                   </div>
                 </div>
+                <div v-else>
+                <!-- Array is not exist -->
+                  <button class="btn btn-outline-primary btn-sm d-block w-100"
+                    @click="initialImgArray">
+                    新增圖片
+                  </button>
+                </div>
+              </div>
+                  
                 <div class="col-sm-8">
                   <div class="mb-3">
                     <label for="title" class="form-label">標題</label>
