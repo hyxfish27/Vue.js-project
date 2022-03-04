@@ -42,8 +42,8 @@ const app = createApp({
                 .catch(err => {
                     console.dir(err)
                 })
-            // this.isLoading = '';
         },
+        // Add New Item to Cart
         addToCart(id, qty = 1) {
             this.isLoading = id;
             const data = {
@@ -55,15 +55,34 @@ const app = createApp({
                 .then(res => {
                     console.log(res)
                     alert(res.data.message);
+                    this.getCart();
                     this.isLoading = '';
                 })
                 .catch(err => {
                     console.dir(err)
                 })
-            this.getCart();
+        },
+        // Remove Cart
+        removeCartItem(id) {
+            this.isLoading = id;
+            axios
+                .delete(`${url}/api/${path}/cart/${id}`)
+                .then(res => {
+                    // console.log(res)
+                    alert(res.data.message);
+                    this.getCart();
+                    this.isLoading = '';
+                })
+                .catch(err => {
+                    console.dir(err)
+                })
 
         },
-        clearCart() {
+        updateCart() {
+
+        },
+        // Clear All Cart Items
+        clearAllCart() {
 
         }
     },

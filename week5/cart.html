@@ -33,7 +33,6 @@
           <tbody>
             <tr v-for="product in products" :key="product.id">
               <td style="width: 200px">
-
                 <div :style="{ backgroundImage: `url(${product.imageUrl})`,}" style="
                   height: 100px; 
                   background-size: cover; 
@@ -84,16 +83,17 @@
             <template v-if="cartData.carts">
               <tr v-for="cart in cartData.carts" :key="cart.id">
                 <td>
-                  <button type="button" class="btn btn-outline-danger btn-sm">
-                    <i class="fas fa-spinner fa-pulse"></i>
+                  <button type="button" class="btn btn-outline-danger btn-sm" :disabled="isLoading === cart.id"
+                    @click="removeCartItem(cart.id)">
+                    <i class="fas fa-spinner fa-pulse" v-show="isLoading === cart.id"></i>
                     x
                   </button>
                 </td>
                 <td>
                   {{ cart.product.title }}
-                  <!-- <div class="text-success">
+                  <div class="text-success" v-if="cart.final_total !== cart.total">
                     已套用優惠券
-                  </div> -->
+                  </div>
                 </td>
                 <td>
                   <div class="input-group input-group-sm">
