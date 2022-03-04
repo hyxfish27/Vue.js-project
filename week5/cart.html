@@ -21,7 +21,6 @@
         <product-modal :id="productId" ref="productModal"></product-modal>
 
         <!-- 產品Modal -->
-
         <table class="table align-middle">
           <thead>
             <tr>
@@ -53,12 +52,14 @@
               </td>
               <td>
                 <div class="btn-group btn-group-sm">
-                  <button type="button" class="btn btn-outline-secondary" @click="openProductModal(product.id)">
-                    <i class="fas fa-spinner fa-pulse"></i>
+                  <button type="button" class="btn btn-outline-secondary" @click="openProductModal(product.id)"
+                    :disabled="isLoading === product.id">
+                    <!-- <i class="fas fa-spinner fa-pulse"></i> -->
                     查看更多
                   </button>
-                  <button type="button" class="btn btn-outline-danger" @click="addToCart(product)">
-                    <i class="fas fa-spinner fa-pulse"></i>
+                  <button type="button" class="btn btn-outline-danger" @click="addToCart(product.id)"
+                    :disabled="isLoading === product.id">
+                    <i class="fas fa-spinner fa-pulse" v-show="isLoading === product.id"></i>
                     加到購物車
                   </button>
                 </div>
@@ -80,8 +81,8 @@
             </tr>
           </thead>
           <tbody>
-            <!-- <template v-if="cart.carts">
-              <tr>
+            <template v-if="cartData.carts">
+              <tr v-for="cart in cartData.carts" :key="cart.id">
                 <td>
                   <button type="button" class="btn btn-outline-danger btn-sm">
                     <i class="fas fa-spinner fa-pulse"></i>
@@ -89,34 +90,34 @@
                   </button>
                 </td>
                 <td>
-                  {{ }}
-                  <div class="text-success">
+                  {{ cart.product.title }}
+                  <!-- <div class="text-success">
                     已套用優惠券
-                  </div>
+                  </div> -->
                 </td>
                 <td>
                   <div class="input-group input-group-sm">
                     <div class="input-group mb-3">
-                      <input min="1" type="number" class="form-control">
-                      <span class="input-group-text" id="basic-addon2">{{ }}</span>
+                      <input min="1" type="number" class="form-control" :value="cart.qty">
+                      <span class="input-group-text" id="basic-addon2"></span>
                     </div>
                   </div>
                 </td>
                 <td class="text-end">
-                  <small class="text-success">折扣價：</small>
-                  {{ }}
+                  <small class="text-success" v-if="cart.final_total !== cart.total">折扣價：</small>
+                  {{ cart.final_total }}
                 </td>
               </tr>
-            </template> -->
+            </template>
           </tbody>
           <tfoot>
             <tr>
               <td colspan="3" class="text-end">總計</td>
-              <td class="text-end">{{ }}</td>
+              <td class="text-end">{{ cartData.total }}</td>
             </tr>
-            <tr>
+            <tr v-if="cartData.final_total !== cartData.total">
               <td colspan="3" class="text-end text-success">折扣價</td>
-              <td class="text-end text-success">{{ }}</td>
+              <td class="text-end text-success">{{ cartData.final_total }}</td>
             </tr>
           </tfoot>
         </table>

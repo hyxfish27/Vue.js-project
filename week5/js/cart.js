@@ -6,9 +6,10 @@ const path = 'hyxfish27';
 const app = createApp({
     data() {
         return {
-            cart: {},
+            cartData: {},
             products: [],
-            productId: ''
+            productId: '',
+            isLoading: ''
         }
     },
     methods: {
@@ -31,8 +32,35 @@ const app = createApp({
         },
 
         // Cart Execution
-        addToCart(product) {
-            this.cart.push(product);
+        getCart() {
+            axios
+                .get(`${url}/api/${path}/cart`)
+                .then(res => {
+                    // console.log(res)
+                    this.cartData = res.data.data;
+                })
+                .catch(err => {
+                    console.dir(err)
+                })
+            // this.isLoading = '';
+        },
+        addToCart(id, qty = 1) {
+            this.isLoading = id;
+            const data = {
+                product_id: id,
+                qty
+            }
+            axios
+                .post(`${url}/api/${path}/cart/`, { data })
+                .then(res => {
+                    console.log(res)
+                    alert(res.data.message);
+                    this.isLoading = '';
+                })
+                .catch(err => {
+                    console.dir(err)
+                })
+            this.getCart();
 
         },
         clearCart() {
@@ -41,6 +69,7 @@ const app = createApp({
     },
     mounted() {
         this.getProducts();
+        this.getCart();
     },
 });
 
