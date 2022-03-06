@@ -128,7 +128,6 @@
           </tfoot>
         </table>
       </div>
-      <div>輸入love3000享7折優惠</div>
       <div class="my-5 row justify-content-center">
         <v-form ref="form" class="col-md-6" v-slot="{ errors }" @submit="createOrder">
           <div class="mb-3">
@@ -199,11 +198,11 @@
             </div>
             <div>
               <div class="input-group">
-                <!-- <select id="itemNum" class="form-select" v-model="cart.qty">
-                  <option :value="num" v-for="num in 20" :key="`${num}${cart.id}`">{{
+                <select id="itemNum" class="form-select" v-model="num">
+                  <option :value="num" v-for="num in 20" :key="`${num}`">{{
                     num }}
                   </option>
-                </select> -->
+                </select>
                 <button type="button" class="btn btn-primary">加入購物車</button>
       </div>
       </div>
