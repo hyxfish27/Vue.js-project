@@ -37,7 +37,8 @@ const app = Vue.createApp({
                     address: '',
                 },
                 message: ''
-            }
+            },
+            code: ''
         }
     },
     // Vee-validate做區域註冊
@@ -126,6 +127,7 @@ const app = Vue.createApp({
         },
         // Clear All Cart Items
         clearAllCart() {
+            this.isLoading = 'clear';
             axios
                 .delete(`${url}/api/${path}/carts`)
                 .then(res => {
@@ -133,6 +135,20 @@ const app = Vue.createApp({
                     alert(res.data.message);
                     this.getCart();
                     this.isLoading = '';
+                })
+                .catch(err => {
+                    console.dir(err)
+                })
+        },
+        // Use coupon and update final_total
+        useCoupon() {
+            const code = this.code;
+            axios
+                .post(`${url}/api/${path}/coupon`, { data: { code } })
+                .then(res => {
+                    console.log(res)
+                    alert(res.data.message);
+                    this.getCart();
                 })
                 .catch(err => {
                     console.dir(err)
@@ -149,8 +165,6 @@ const app = Vue.createApp({
                 .then(res => {
                     console.log(res)
                     alert(res.data.message);
-                    // this.getCart();
-                    // this.isLoading = '';
                 })
                 .catch(err => {
                     console.dir(err)
