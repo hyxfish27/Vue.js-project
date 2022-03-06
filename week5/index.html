@@ -111,15 +111,16 @@
                   </div>
                 </td>
                 <td class="text-end">
-                  <div class="row">
+                  <div class="row justify-content-center">
                     <div class="col-md-6" v-if="cart.final_total !== cart.total">
-                      <del>{{ cart.total }}</del>
+                      <del>原價 : {{ cart.total }}</del>
                     </div>
-                    <div>
-                      <small class="text-success col-md-6" v-if="cart.final_total !== cart.total">折扣價：</small>
+                    <div class="col-md-6 text-center">
+                      <small class="text-success" v-if="cart.final_total !== cart.total">折扣價：</small> {{
+                      cart.final_total }}
                     </div>
                   </div>
-                  {{ cart.final_total }}
+
                 </td>
               </tr>
             </template>
@@ -217,12 +218,12 @@
             </div>
             <div>
               <div class="input-group">
-                <select id="itemNum" class="form-select" v-model="num">
+                <select id="itemNum" class="form-select" v-model.number="qty" min='1'>
                   <option :value="num" v-for="num in 20" :key="`${num}`">{{
                     num }}
                   </option>
                 </select>
-                <button type="button" class="btn btn-primary" @add-to-cart='addToCart'>加入購物車</button>
+                <button type="button" class="btn btn-primary" @click="$emit('add-to-cart', product.id, qty)">加入購物車</button>
       </div>
       </div>
       </div>

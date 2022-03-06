@@ -159,12 +159,14 @@ const app = Vue.createApp({
             return phoneNumber.test(value) ? true : '需要正確的電話號碼'
         },
         createOrder() {
-            const order = this.form
+            const order = this.form;
             axios
                 .post(`${url}/api/${path}/order`, { data: order })
                 .then(res => {
                     console.log(res)
                     alert(res.data.message);
+                    this.$refs.form.resetForm();
+                    this.getCart();
                 })
                 .catch(err => {
                     console.dir(err)
