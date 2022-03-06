@@ -3,14 +3,48 @@ import { createApp } from 'https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.27/vue
 const url = 'https://vue3-course-api.hexschool.io/v2';
 const path = 'hyxfish27';
 
+const { defineRule, Form, Field, ErrorMessage, configure } = VeeValidate; // 驗證
+const { required, email, min, max } = VeeValidateRules; // 規則
+const { localize, loadLocaleFromURL } = VeeValidateI18n; // 語系
+
+// 定義驗證規則
+defineRule('required', required);
+defineRule('email', email);
+defineRule('min', min);
+defineRule('max', max);
+
+// 讀取外部的資源
+loadLocaleFromURL('https://unpkg.com/@vee-validate/i18n@4.1.0/dist/locale/zh_TW.json');
+
+// Activate the locale
+configure({
+    generateMessage: localize('zh_TW'),
+    validateOnInput: true, // 調整為：輸入文字時，就立即進行驗證
+});
+
 const app = createApp({
     data() {
         return {
             cartData: {},
             products: [],
             productId: '',
-            isLoading: ''
+            isLoading: '',
+            form: {
+                user: {
+                    name: '',
+                    email: '',
+                    tel: '',
+                    address: '',
+                },
+                message: ''
+            }
         }
+    },
+    // Vee-validate做區域註冊
+    components: {
+        VForm: Form,
+        VField: Field,
+        ErrorMessage: ErrorMessage,
     },
     methods: {
         getProducts() {
@@ -76,14 +110,51 @@ const app = createApp({
                 .catch(err => {
                     console.dir(err)
                 })
-
         },
-        updateCart() {
-
+        updateCartItem(id) {
+            axios
+                .put(`${url}/api/${path}/cart/${id}`)
+                .then(res => {
+                    // console.log(res)
+                    alert(res.data.message);
+                    this.getCart();
+                    this.isLoading = '';
+                })
+                .catch(err => {
+                    console.dir(err)
+                })
         },
         // Clear All Cart Items
         clearAllCart() {
-
+            axios
+                .delete(`${url}/api/${path}/carts`)
+                .then(res => {
+                    // console.log(res)
+                    alert(res.data.message);
+                    this.getCart();
+                    this.isLoading = '';
+                })
+                .catch(err => {
+                    console.dir(err)
+                })
+        },
+        isPhone(value) {
+            const phoneNumber = /^(09)[0-9]{8}$/
+            return phoneNumber.test(value) ? true : '需要正確的電話號碼'
+        },
+        createOrder() {
+            const order = this.form
+            axios
+                .post(`${url}/api/${path}/order`, { data: order })
+                .then(res => {
+                    console.log(res)
+                    alert(res.data.message);
+                    // this.getCart();
+                    // this.isLoading = '';
+                })
+                .catch(err => {
+                    console.dir(err)
+                })
         }
     },
     mounted() {
