@@ -1,4 +1,4 @@
-import { createApp } from 'https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.27/vue.esm-browser.min.js';
+// import { createApp } from 'https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.27/vue.esm-browser.min.js';
 
 const url = 'https://vue3-course-api.hexschool.io/v2';
 const path = 'hyxfish27';
@@ -22,7 +22,7 @@ configure({
     validateOnInput: true, // 調整為：輸入文字時，就立即進行驗證
 });
 
-const app = createApp({
+const app = Vue.createApp({
     data() {
         return {
             cartData: {},
