@@ -1,3 +1,4 @@
+// 使用 esm 會讓 vee-validate 失效
 // import { createApp } from 'https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.27/vue.esm-browser.min.js';
 
 const url = 'https://vue3-course-api.hexschool.io/v2';
@@ -13,7 +14,7 @@ defineRule('email', email);
 defineRule('min', min);
 defineRule('max', max);
 
-// 讀取外部的資源
+// 讀取外部中文化資源
 loadLocaleFromURL('https://unpkg.com/@vee-validate/i18n@4.1.0/dist/locale/zh_TW.json');
 
 // Activate the locale
@@ -97,7 +98,7 @@ const app = Vue.createApp({
                     console.dir(err)
                 })
         },
-        // Remove Cart
+        // Remove Cart Item
         removeCartItem(id) {
             this.isLoading = id;
             axios
@@ -112,6 +113,7 @@ const app = Vue.createApp({
                     console.dir(err)
                 })
         },
+        // Update Cart Quantity
         updateCartItem(cart) {
             this.isLoading = cart.id;
             const data = {
@@ -146,6 +148,8 @@ const app = Vue.createApp({
                     console.dir(err)
                 })
         },
+
+        // Coupon Execution
         // Use coupon and update final_total
         useCoupon() {
             const code = this.code;
