@@ -112,9 +112,14 @@ const app = Vue.createApp({
                     console.dir(err)
                 })
         },
-        updateCartItem(id) {
+        updateCartItem(cart) {
+            this.isLoading = cart.id;
+            const data = {
+                product_id: cart.id,
+                qty: cart.qty
+            }
             axios
-                .put(`${url}/api/${path}/cart/${id}`)
+                .put(`${url}/api/${path}/cart/${cart.id}`, { data })
                 .then(res => {
                     // console.log(res)
                     alert(res.data.message);
@@ -122,6 +127,7 @@ const app = Vue.createApp({
                     this.isLoading = '';
                 })
                 .catch(err => {
+                    alert(res.data.message);
                     console.dir(err)
                 })
         },
@@ -186,7 +192,8 @@ app.component('product-modal', {
     data() {
         return {
             productModal: '',
-            product: {}
+            product: {},
+            qty: 1
         }
     },
     watch: {
@@ -199,6 +206,9 @@ app.component('product-modal', {
         openModal() {
             this.productModal.show();
         },
+        closeModal() {
+            this.productModal.hide();
+        },
         getProduct() {
             axios
                 .get(`${url}/api/${path}/product/${this.id}`)
@@ -209,6 +219,10 @@ app.component('product-modal', {
                 .catch(err => {
                     console.dir(err)
                 })
+        },
+        addToCart() {
+            this.$emit('add-to-cart', this.product.id, this.qty);
+            this.closeModal();
         }
     },
     mounted() {
