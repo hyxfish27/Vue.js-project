@@ -2,7 +2,7 @@
   <div>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container-fluid">
-        <a class="navbar-brand" href="#">後台</a>
+        <router-link class="navbar-brand" to="/admin">後台首頁</router-link>
         <button
           class="navbar-toggler"
           type="button"
@@ -16,15 +16,18 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div class="navbar-nav">
-            <a class="nav-link active" aria-current="page" href="#">Home</a>
-            <a class="nav-link" href="#">Features</a>
-            <a class="nav-link" href="#">Pricing</a>
-            <a class="nav-link disabled">Disabled</a>
+            <router-link class="nav-link" to="/admin">後台首頁</router-link>
+            <router-link class="nav-link" to="/admin/products">
+              後台產品列表
+            </router-link>
+            <router-link class="nav-link" to="/admin/order">
+              後台訂單管理
+            </router-link>
           </div>
         </div>
       </div>
     </nav>
-    <h2>這是後台</h2>
+    <h2>這是後台頁面</h2>
     <router-view />
   </div>
 </template>

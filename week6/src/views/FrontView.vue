@@ -2,7 +2,7 @@
   <div>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container-fluid">
-        <a class="navbar-brand" href="#">前台</a>
+        <router-link class="navbar-brand" to="/">小資女天地</router-link>
         <button
           class="navbar-toggler"
           type="button"
@@ -16,15 +16,19 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div class="navbar-nav">
-            <a class="nav-link active" aria-current="page" href="#">Home</a>
-            <a class="nav-link" href="#">Features</a>
-            <a class="nav-link" href="#">Pricing</a>
-            <a class="nav-link disabled">Disabled</a>
+            <router-link class="nav-link" to="/">首頁</router-link>
+            <router-link class="nav-link" to="/products">
+              前台產品頁面
+            </router-link>
+            <router-link class="nav-link" to="/cart"> 前台購物車 </router-link>
+            <router-link class="nav-link" to="/admin">
+              後台產品頁面
+            </router-link>
           </div>
         </div>
       </div>
     </nav>
-    <h2>這是前台</h2>
+    <h2 class="text-center">前台頁面</h2>
     <router-view />
   </div>
 </template>

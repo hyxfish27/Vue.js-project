@@ -30,13 +30,24 @@ const routes = [
   {
     // 後台頁面
     path: '/admin',
-    component: () => import('../views/DashboardView.vue')
+    component: () => import('../views/DashboardView.vue'),
+    children: [
+      {
+        path: 'products',
+        component: () => import('../views/AdminProductsView.vue')
+      },
+      {
+        path: 'order',
+        component: () => import('../views/AdminOrderView.vue')
+      }
+    ]
   }
 ]
 
 const router = createRouter({
   history: createWebHashHistory(),
-  routes
+  routes,
+  linkActiveClass: 'active' // Bootstrap
 })
 
 export default router

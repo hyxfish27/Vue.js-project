@@ -1,7 +1,6 @@
 <template>
-  <div>
-    <router-view />
-  </div>
+  <router-view />
+  <!-- FrontView <navbar><router-view> -->
 </template>
 
 <style lang="scss">
