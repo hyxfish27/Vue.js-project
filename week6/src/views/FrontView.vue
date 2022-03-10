@@ -17,6 +17,9 @@
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div class="navbar-nav">
             <router-link class="nav-link" to="/">首頁</router-link>
+            <router-link class="nav-link" to="/about">
+              關於我們
+            </router-link>
             <router-link class="nav-link" to="/products">
               前台產品頁面
             </router-link>
@@ -28,7 +31,7 @@
         </div>
       </div>
     </nav>
-    <h2 class="text-center">前台頁面</h2>
+    <h2 class="text-center mt-4">前台頁面</h2>
     <router-view />
   </div>
 </template>
