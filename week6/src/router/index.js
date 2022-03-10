@@ -28,6 +28,10 @@ const routes = [
       {
         path: 'about',
         component: () => import('../views/AboutView.vue')
+      },
+      {
+        path: 'login',
+        component: () => import('../views/LoginView.vue')
       }
 
     ]
@@ -35,15 +39,15 @@ const routes = [
   {
     // 後台頁面
     path: '/admin',
-    component: () => import('../views/DashboardView.vue'),
+    component: () => import('../views/Dashboard/DashboardView.vue'),
     children: [
       {
         path: 'products',
-        component: () => import('../views/AdminProductsView.vue')
+        component: () => import('../views/Dashboard/AdminProductsView.vue')
       },
       {
         path: 'order',
-        component: () => import('../views/AdminOrderView.vue')
+        component: () => import('../views/Dashboard/AdminOrderView.vue')
       }
     ]
   }
